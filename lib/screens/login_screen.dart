@@ -1,4 +1,10 @@
-import 'package:canteenapp/components/social_signin.dart';
+import 'package:canteenapp/components/misc/already_have_account.dart';
+import 'package:canteenapp/components/login_background.dart';
+import 'package:canteenapp/components/password_input_box.dart';
+import 'package:canteenapp/components/primary_btn_red.dart';
+import 'package:canteenapp/components/misc/social_signin.dart';
+import 'package:canteenapp/components/text_input_box.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -6,69 +12,51 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-        backgroundColor: Color.fromRGBO(248, 245, 242, 1),
-        body: SafeArea(
-          child: Column(
-            children: [
-              Container(
-                height: size.height * 0.15,
-                width: size.width,
-                child: Stack(
-                  children: [
-                    Positioned(
-                      top: -7,
-                      left: -50,
-                      child: Container(
-                          height: 100,
-                          width: 100,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              width: 30,
-                              color: Color.fromRGBO(232, 76, 79, 1),
-                            ),
-                            shape: BoxShape.circle,
-                          )),
-                    ),
-                    Positioned(
-                      top: -100,
-                      left: -30,
-                      child: Container(
-                          height: 160,
-                          width: 160,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color.fromRGBO(250, 222, 223, 1),
-                          )),
-                    ),
-                    Positioned(
-                      top: -70,
-                      right: -70,
-                      child: Container(
-                          height: 150,
-                          width: 150,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color.fromRGBO(232, 76, 79, 1),
-                          )),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                width: size.width * 0.8,
-                child: Text("Sign Up",
-                    style: GoogleFonts.montserrat(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 30,
-                        decoration: TextDecoration.none)),
-              ),
-              Container(
-                child: GoogleFaceBookLogin(),
-              )
-            ],
+    return LoginBackground(
+        child: SingleChildScrollView(
+      child: Column(
+        children: [
+          Container(
+            width: size.width * 0.8,
+            child: Text("Sign Up",
+                style: GoogleFonts.poppins(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 30,
+                    decoration: TextDecoration.none)),
           ),
-        ));
+          SizedBox(
+            height: 15,
+          ),
+          MyInputBox(
+            label: "Full name",
+            hintText: "Hohn Doe",
+            onChanged: (_) {},
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          MyInputBox(
+            label: "Email",
+            hintText: "Your Email id",
+            onChanged: (_) {},
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          PasswordInput(onChanged: (_) {}),
+          SizedBox(
+            height: 15,
+          ),
+          PrimaryBtn(child: Text("SIGN UP")),
+          SizedBox(height: 15),
+          AlreadyHaveAnAccountCheck(press: () {}),
+          SizedBox(height: 15),
+          Container(
+            child: GoogleFaceBookLogin(),
+          )
+        ],
+      ),
+    ));
   }
 }
