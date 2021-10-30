@@ -1,3 +1,4 @@
+import 'package:canteenapp/screens/home_screen.dart';
 import 'package:canteenapp/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -97,7 +98,7 @@ class MyApp extends StatelessWidget {
           // primaryColor: kPrimaryColor,
           // scaffoldBackgroundColor: Colors.white,
           ),
-      home: LoginScreen(),
+      home: HomeScreen(),
     );
   }
 }
