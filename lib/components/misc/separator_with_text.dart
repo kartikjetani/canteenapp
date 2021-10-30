@@ -2,6 +2,10 @@ import 'package:canteenapp/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 class SapratorWithTxt extends StatelessWidget {
+  final String text;
+
+  SapratorWithTxt({required this.text});
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -14,9 +18,9 @@ class SapratorWithTxt extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Text(
-              "Sign in with",
+              text,
               style: TextStyle(
-                color: kPrimaryColor,
+                color: Colors.black54,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -32,6 +36,7 @@ class SapratorWithTxt extends StatelessWidget {
       child: Divider(
         color: Color(0xFFD9D9D9),
         height: 1.5,
+        thickness: 2,
       ),
     );
   }

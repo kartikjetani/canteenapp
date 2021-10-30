@@ -1,16 +1,20 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 
 class PrimaryBtn extends StatelessWidget {
   final Widget child;
+  final void Function()? onPressed;
 
-  const PrimaryBtn({Key? key, required this.child}) : super(key: key);
+  const PrimaryBtn({Key? key, required this.child, this.onPressed})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
     return ElevatedButton(
-        onPressed: () {},
+        onPressed: onPressed,
         style: ButtonStyle(
             backgroundColor:
                 MaterialStateProperty.all(Color.fromRGBO(232, 76, 79, 1)),

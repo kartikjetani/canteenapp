@@ -1,6 +1,6 @@
 import 'package:canteenapp/components/misc/separator_with_text.dart';
+import 'package:canteenapp/utils/auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 class GoogleFaceBookLogin extends StatelessWidget {
   @override
@@ -10,7 +10,9 @@ class GoogleFaceBookLogin extends StatelessWidget {
     return Container(
       child: Column(
         children: [
-          SapratorWithTxt(),
+          SapratorWithTxt(
+            text: 'Sign in with',
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -43,7 +45,11 @@ class GoogleFaceBookLogin extends StatelessWidget {
                 width: size.width * 0.40,
                 child: RaisedButton(
                   color: Colors.white,
-                  onPressed: () {},
+                  onPressed: () {
+                    Authentication()
+                        .signInWithGoogle()
+                        .then((value) => print(value));
+                  },
                   child: SizedBox(
                     height: 50.0,
                     child: Row(

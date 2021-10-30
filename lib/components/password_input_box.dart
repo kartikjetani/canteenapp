@@ -11,12 +11,12 @@ class PasswordInput extends StatefulWidget {
 }
 
 class _PasswordInputState extends State<PasswordInput> {
-  bool _isVisible = false;
+  bool _isVisible = true;
 
   @override
   void initState() {
+    _isVisible = true;
     super.initState();
-    _isVisible = false;
   }
 
   @override
@@ -50,7 +50,7 @@ class _PasswordInputState extends State<PasswordInput> {
                     color: Colors.red,
                   )),
               border: OutlineInputBorder(),
-              hintText: "Create Password",
+              hintText: "Password",
               hintStyle: TextStyle(color: Colors.grey),
               suffixIcon: IconButton(
                 icon: Icon(
