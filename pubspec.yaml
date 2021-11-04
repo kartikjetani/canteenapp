@@ -32,7 +32,11 @@ dependencies:
   flutter_signin_button: ^2.0.0
   firebase_core: ^1.8.0
   firebase_auth: "^3.1.4"
-  google_sign_in: ^5.1.0
+  google_sign_in: ^5.1.0 
+  flutter_facebook_auth: ^3.5.3
+  get: ^4.3.8 
+  get_storage: ^2.0.3 
+  cloud_firestore: ^2.5.4 
 
 dev_dependencies:
   flutter_test:

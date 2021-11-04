@@ -1,11 +1,19 @@
+import 'package:canteenapp/controllers/user_controller.dart';
+import 'package:canteenapp/models/userdata_model.dart';
+import 'package:canteenapp/screens/home_screen.dart';
 import 'package:canteenapp/screens/login_screen.dart';
+import 'package:canteenapp/utils/auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 // Import the firebase_core plugin
 import 'package:firebase_core/firebase_core.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
-void main() {
+void main() async {
+  await GetStorage.init();
   SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(statusBarColor: Color.fromRGBO(248, 245, 242, 1)));
   runApp(App());
@@ -58,6 +66,28 @@ class _AppState extends State<App> {
   }
 }
 
+class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
+
+  @override
+  Widget build(BuildContext context) {
+    UserController userController = Get.put(UserController());
+    userController.initialize();
+    print(userController.uid.value);
+
+    return GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Auth',
+        theme: ThemeData(
+            // primaryColor: kPrimaryColor,
+            // scaffoldBackgroundColor: Colors.white,
+            ),
+        home: HomeScreen());
+    //  (userController.uid.value != "") ? HomeScreen() : LoginScreen());
+  }
+}
+
+// Extra widgets
 class SomethingWentWrong extends StatelessWidget {
   const SomethingWentWrong({Key? key}) : super(key: key);
 
@@ -85,19 +115,16 @@ class Loading extends StatelessWidget {
     );
   }
 }
-
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Auth',
-      theme: ThemeData(
-          // primaryColor: kPrimaryColor,
-          // scaffoldBackgroundColor: Colors.white,
-          ),
-      home: LoginScreen(),
-    );
-  }
-}
+//  StreamBuilder(
+//           stream: FirebaseAuth.instance.authStateChanges(),
+//           builder: (context, snapshot) {
+//             if (snapshot.connectionState == ConnectionState.waiting) {
+//               return Center(
+//                 child: CircularProgressIndicator(),
+//               );
+//             } else if (snapshot.hasData) {
+//               return HomeScreen();
+//             } else {
+//               return LoginScreen();
+//             }
+//           }),

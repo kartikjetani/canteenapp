@@ -4,12 +4,16 @@ import 'package:canteenapp/components/password_input_box.dart';
 import 'package:canteenapp/components/primary_btn_red.dart';
 import 'package:canteenapp/components/misc/social_signin.dart';
 import 'package:canteenapp/components/text_input_box.dart';
+import 'package:canteenapp/models/userdata_model.dart';
 import 'package:canteenapp/screens/home_screen.dart';
 import 'package:canteenapp/screens/signup_screen.dart';
 import 'package:canteenapp/utils/auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -21,6 +25,13 @@ class _LoginScreenState extends State<LoginScreen> {
   var password = "";
   String _mailerror = "";
   String _passerror = "";
+  final userbox = GetStorage("User");
+
+  @override
+  void initState() {
+    print(" ${GetStorage().read("isLoggedin")}");
+    super.initState();
+  }
 
   void showError(value) {
     setState(() {
@@ -34,9 +45,20 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
+  Future fetchData() async {
+    try {
+      var res = await http.get(Uri.parse("http://192.168.0.103:5000/hello"));
+      print(res.body);
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    var userdata;
+
     return LoginBackground(
         child: Container(
       height: size.height * 0.8,
@@ -88,15 +110,16 @@ class _LoginScreenState extends State<LoginScreen> {
           PrimaryBtn(
             child: Text("LOGIN"),
             onPressed: () {
-              Authentication().SignIn(email, password).then((value) {
-                if (value == "SUCCESS") {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) {
-                    return HomeScreen();
-                  }));
-                }
-                showError(value);
-              });
+              // Authentication().SignIn(email, password).then((value) {
+              //   if (value == "SUCCESS") {
+              //     Navigator.pushReplacement(context,
+              //         MaterialPageRoute(builder: (context) {
+              //       return HomeScreen();
+              //     }));
+              //   }
+              //   showError(value);
+              // });
+              // fetchData();
             },
           ),
           SizedBox(height: 25),
