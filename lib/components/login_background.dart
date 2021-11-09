@@ -17,6 +17,7 @@ class LoginBackground extends StatelessWidget {
         appBar: AppBar(
           // backgroundColor: Colors.red[50],
           toolbarHeight: 0,
+          // ignore: deprecated_member_use
           brightness: Brightness.light,
           shadowColor: Colors.white,
         ),

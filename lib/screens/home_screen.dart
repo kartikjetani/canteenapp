@@ -32,42 +32,118 @@ class _HomeScreenState extends State<HomeScreen> {
     List<FoodItem> menu = [];
 
     return Scaffold(
-      backgroundColor: Color.fromRGBO(248, 245, 242, 1),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Menu',
-            backgroundColor: Colors.red,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: 'Order',
-            backgroundColor: Colors.green,
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
-      ),
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(70.0),
-        child: AppBar(
-          title: Center(
-              child: Text("Canteen",
-                  style: GoogleFonts.poppins(
-                      fontSize: 26,
-                      fontWeight: FontWeight.w500,
-                      fontStyle: FontStyle.normal,
-                      color: Color.fromRGBO(62, 68, 98, 1)))),
-          backgroundColor: Colors.white,
-          elevation: 0,
+        backgroundColor: Color.fromRGBO(248, 245, 242, 1),
+        bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Menu',
+              backgroundColor: Colors.red,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.business),
+              label: 'Order',
+              backgroundColor: Colors.green,
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.red[500],
+          onTap: _onItemTapped,
         ),
-      ),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
-    );
+        // appBar: PreferredSize(
+        //   preferredSize: Size.fromHeight(115.0),
+        //   child: AppBar(
+        //     title: Center(
+        //         child: Text("Canteen",
+        //             style: GoogleFonts.poppins(
+        //                 fontSize: 26,
+        //                 fontWeight: FontWeight.w500,
+        //                 fontStyle: FontStyle.normal,
+        //                 color: Color.fromRGBO(62, 68, 98, 1)
+        //                 )
+        //                 )
+        //                 ),
+        //     backgroundColor: Colors.white,
+        //     elevation: 0,
+        //   ),
+        // ),
+        body:
+            //backgroundColor: Color.fromRGBO(248, 245, 242, 1),
+            CustomScrollView(slivers: [
+          //Color.fromRGBO(248, 245, 242, 1),
+          // PreferredSize(
+          //   preferredSize: Size.fromHeight(70.0),
+          SliverAppBar(
+            backgroundColor: Color.fromRGBO(248, 245, 242, 1),
+            floating: true,
+            pinned: true,
+            snap: false,
+            centerTitle: false,
+            title: Text(
+              'Canteen',
+              style: GoogleFonts.poppins(
+                  fontSize: 26,
+                  fontWeight: FontWeight.w500,
+                  fontStyle: FontStyle.normal,
+                  color: Color.fromRGBO(62, 68, 98, 1)),
+              //textAlign: TextAlign.center,
+            ),
+            actions: [
+              // backgroundColor: Color.fromRGBO(62, 68, 98, 1),
+              IconButton(
+                icon: Icon(Icons.notifications),
+                color: Color.fromRGBO(232, 76, 79, 1),
+                onPressed: () {
+                  // ignore: unnecessary_statements
+                  Color.fromRGBO(232, 76, 79, 1);
+                },
+              ),
+            ],
+            bottom: AppBar(
+              backgroundColor: Color.fromRGBO(248, 245, 242, 1),
+              title: Container(
+                width: double.infinity,
+                height: 40,
+                color: Colors.red[10],
+                child: Center(
+                  child: TextField(
+                    //borderSide: BorderSide(color: Colors.teal),
+                    onTap: () {
+                      // ignore: unnecessary_statements
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'Search for something',
+                      prefixIcon: Icon(Icons.search,
+                          color: Color.fromRGBO(232, 76, 79, 1)),
+                    ),
+                  ),
+                ),
+              ),
+              elevation: 0,
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate([
+              SizedBox(
+                height: 700,
+                child: Center(
+                  child: _widgetOptions.elementAt(_selectedIndex),
+                ),
+              ),
+              // Container(
+              //   height: 1000,
+              //   color: Colors.pink,
+              // ),
+            ]),
+          ),
+        ])
+
+        // Other Sliver Widgets
+
+        );
+    // Center(
+    //   child: _widgetOptions.elementAt(_selectedIndex),
+    // ),
   }
 }
 
