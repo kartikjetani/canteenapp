@@ -2,8 +2,9 @@ class FoodItem {
   String? itemName;
   int? itemPrice;
   String? imgUrl;
-
-  FoodItem({this.itemName, this.itemPrice, this.imgUrl});
+  int? quantity;
+  bool? isAvail;
+  FoodItem({this.itemName, this.itemPrice, this.imgUrl, this.quantity, this.isAvail});
 
   FoodItem.fromJson(Map<String, dynamic> json) {
     itemName = json['item_name'];
@@ -16,6 +17,7 @@ class FoodItem {
     data['item_name'] = this.itemName;
     data['item_price'] = this.itemPrice;
     data['img_url'] = this.imgUrl;
+    data['quantity']  = this.quantity;
     return data;
   }
 }

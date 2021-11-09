@@ -3,6 +3,7 @@ import 'package:canteenapp/models/userdata_model.dart';
 import 'package:canteenapp/screens/home_screen.dart';
 import 'package:canteenapp/screens/login_screen.dart';
 import 'package:canteenapp/utils/auth.dart';
+import 'package:canteenapp/utils/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +12,9 @@ import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:provider/provider.dart';
+
+import 'models/fooditem_model.dart';
 
 void main() async {
   await GetStorage.init();
@@ -68,7 +72,6 @@ class _AppState extends State<App> {
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
-
   @override
   Widget build(BuildContext context) {
     UserController userController = Get.put(UserController());
@@ -76,13 +79,13 @@ class MyApp extends StatelessWidget {
     print(userController.uid.value);
 
     return GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Auth',
-        theme: ThemeData(
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Auth',
+          theme: ThemeData(
             // primaryColor: kPrimaryColor,
             // scaffoldBackgroundColor: Colors.white,
-            ),
-        home: HomeScreen());
+          ),
+          home: HomeScreen());
     //  (userController.uid.value != "") ? HomeScreen() : LoginScreen());
   }
 }

@@ -1,11 +1,14 @@
 import 'package:canteenapp/components/menu_item_card.dart';
 import 'package:canteenapp/components/misc/stepper.dart';
 import 'package:canteenapp/components/primary_btn_red.dart';
+import 'package:canteenapp/controllers/cart_controller.dart';
 import 'package:canteenapp/models/fooditem_model.dart';
+import 'package:canteenapp/screens/checkout_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -25,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
     Menu(),
     OrderHistory(),
   ];
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -76,9 +80,12 @@ class Menu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cartController = Get.put(CartController());
     Size size = MediaQuery.of(context).size;
     final Stream<QuerySnapshot> _menuStream =
         FirebaseFirestore.instance.collection('food_items').snapshots();
+    // print("_menustrems na docs: ");
+    // final List<FoodItem>? menuList = Provider.of<List<FoodItem>>(context);
     return Column(
       children: [
         Container(
@@ -90,7 +97,7 @@ class Menu extends StatelessWidget {
                 if (snapshot.hasError) {
                   return Text('Something went wrong');
                 }
-
+                print("snapshot: $snapshot");
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                 }
@@ -98,9 +105,9 @@ class Menu extends StatelessWidget {
                 return ListView(
                   children:
                       snapshot.data!.docs.map((DocumentSnapshot document) {
+                    print("docs: ${document.data()}");
                     Map<String, dynamic> data =
                         document.data()! as Map<String, dynamic>;
-
                     int cnt = 0;
                     return (data["is_avail"])
                         ? MenuItem(
@@ -114,7 +121,7 @@ class Menu extends StatelessWidget {
         PrimaryBtn(
           child: Text("Checkout"),
           onPressed: () {
-            Get.to(StepperDemo());
+            Get.to(CheckoutScreen());
           },
         ),
       ],
