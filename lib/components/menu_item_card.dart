@@ -5,9 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class MenuItem extends StatefulWidget {
   Map<String, dynamic>? data;
-
   MenuItem({Key? key, Map<String, dynamic>? this.data}) : super(key: key);
-
   @override
   _MenuItemState createState() => _MenuItemState(data);
 }
@@ -22,7 +20,8 @@ class _MenuItemState extends State<MenuItem> {
 
   @override
   void initState() {
-    cnt =  data['quantity'] ?? 0;
+    print("${data['item_name']} cnt as of now is : ${data['quantity']}");
+    cnt =  data['quantity'] ;
     super.initState();
   }
 
@@ -85,11 +84,12 @@ class _MenuItemState extends State<MenuItem> {
                               onPressed: () {
                                 setState(() {
                                   cnt += 1;
-                                  print("cnt of ${data['item_name']}: $cnt" );
-                                  // if(data["quantity"] != cnt){
+                                  data["quantity"] = cnt;
+                                  print("${data['item_name']} cnt as of now is : ${data['quantity']}");
+                                  // print("cnt of ${data['item_name']}: $cnt" );
                                     data["quantity"] = cnt;
-                                    cartController.add(data);
-                                  // }
+                                    cartController.increament(data);
+
                                 });
                               },
                               child: Text(

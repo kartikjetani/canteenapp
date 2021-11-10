@@ -82,46 +82,28 @@ class Menu extends StatelessWidget {
   Widget build(BuildContext context) {
     final cartController = Get.put(CartController());
     Size size = MediaQuery.of(context).size;
-    final Stream<QuerySnapshot> _menuStream =
-        FirebaseFirestore.instance.collection('food_items').snapshots();
-    // print("_menustrems na docs: ");
-    // final List<FoodItem>? menuList = Provider.of<List<FoodItem>>(context);
+
     return Column(
       children: [
         Container(
           height: size.height * 0.69,
-          child: StreamBuilder<QuerySnapshot>(
-              stream: _menuStream,
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasError) {
-                  return Text('Something went wrong');
-                }
-                print("snapshot: $snapshot");
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                }
-
-                return ListView(
-                  children:
-                      snapshot.data!.docs.map((DocumentSnapshot document) {
-                    print("docs: ${document.data()}");
-                    Map<String, dynamic> data =
-                        document.data()! as Map<String, dynamic>;
-                    int cnt = 0;
-                    return (data["is_avail"])
-                        ? MenuItem(
-                            data: data,
-                          )
-                        : Container();
-                  }).toList(),
-                );
-              }),
+          child: Obx(
+            () => ListView.builder(
+              itemCount: cartController.cartItems.value.length,
+              itemBuilder: (context, index) {
+                return cartController.cartItems[index].isAvail == true
+                    ? MenuItem(data: cartController.cartItems[index].toJson())
+                    : Container();
+              },
+            ),
+          ),
         ),
         PrimaryBtn(
           child: Text("Checkout"),
           onPressed: () {
-            Get.to(CheckoutScreen());
+            Get.off(
+              CheckoutScreen(),
+            );
           },
         ),
       ],
