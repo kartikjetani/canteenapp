@@ -2,10 +2,15 @@ import 'package:canteenapp/controllers/cart_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:canteenapp/models/fooditem_model.dart';
 
 class MenuItem extends StatefulWidget {
   Map<String, dynamic>? data;
   MenuItem({Key? key, Map<String, dynamic>? this.data}) : super(key: key);
+  // Map<String, dynamic>? data;
+  FoodItem data;
+  MenuItem({Key? key, required this.data }) : super(key: key);
+  // Map<String, dynamic>? this.data
   @override
   _MenuItemState createState() => _MenuItemState(data);
 }
