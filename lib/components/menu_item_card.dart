@@ -1,8 +1,12 @@
+import 'package:canteenapp/controllers/cart_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:canteenapp/models/fooditem_model.dart';
 
 class MenuItem extends StatefulWidget {
+  Map<String, dynamic>? data;
+  MenuItem({Key? key, Map<String, dynamic>? this.data}) : super(key: key);
   // Map<String, dynamic>? data;
   FoodItem data;
   MenuItem({Key? key, required this.data }) : super(key: key);
@@ -21,12 +25,14 @@ class _MenuItemState extends State<MenuItem> {
 
   @override
   void initState() {
-    cnt = 0;
+    print("${data['item_name']} cnt as of now is : ${data['quantity']}");
+    cnt =  data['quantity'] ;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final CartController cartController = Get.find();
     return Padding(
         padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
         child: Card(
@@ -83,6 +89,12 @@ class _MenuItemState extends State<MenuItem> {
                               onPressed: () {
                                 setState(() {
                                   cnt += 1;
+                                  data["quantity"] = cnt;
+                                  print("${data['item_name']} cnt as of now is : ${data['quantity']}");
+                                  // print("cnt of ${data['item_name']}: $cnt" );
+                                    data["quantity"] = cnt;
+                                    cartController.increament(data);
+
                                 });
                               },
                               child: Text(

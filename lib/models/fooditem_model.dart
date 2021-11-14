@@ -1,32 +1,24 @@
 class FoodItem {
   String? itemName;
-  double? itemPrice;
-  int? quantity;
+  int? itemPrice;
   String? imgUrl;
-  bool? isAvailable;
-
-  FoodItem(
-      {this.itemName,
-        this.itemPrice,
-        this.quantity,
-        this.imgUrl,
-        this.isAvailable});
+  int? quantity = 0;
+  bool? isAvail;
+  FoodItem({this.itemName, this.itemPrice, this.imgUrl, this.quantity, this.isAvail});
 
   FoodItem.fromJson(Map<String, dynamic> json) {
-    itemName = json['itemName'];
-    itemPrice = json['itemPrice'];
-    quantity = json['quantity'];
+    itemName = json['item_name'];
+    itemPrice = json['item_price'];
     imgUrl = json['imgUrl'];
-    isAvailable = json['isAvailable'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['itemName'] = this.itemName;
-    data['itemPrice'] = this.itemPrice;
-    data['quantity'] = this.quantity;
+    data['item_name'] = this.itemName;
+    data['item_price'] = this.itemPrice;
     data['imgUrl'] = this.imgUrl;
-    data['isAvailable'] = this.isAvailable;
+    data['quantity']  = this.quantity;
+    data['is_avail'] = this.isAvail;
     return data;
   }
 }
