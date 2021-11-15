@@ -79,13 +79,13 @@ class MyApp extends StatelessWidget {
     print(userController.uid.value);
 
     return GetMaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Flutter Auth',
-          theme: ThemeData(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Auth',
+        theme: ThemeData(
             // primaryColor: kPrimaryColor,
             // scaffoldBackgroundColor: Colors.white,
-          ),
-          home: HomeScreen());
+            ),
+        home: HomeScreen());
     //  (userController.uid.value != "") ? HomeScreen() : LoginScreen());
   }
 }
