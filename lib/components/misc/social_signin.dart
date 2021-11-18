@@ -26,8 +26,8 @@ class GoogleFaceBookLogin extends StatelessWidget {
                 child: RaisedButton(
                   color: Colors.white,
                   onPressed: () {
-                    // Authentication.signInWithFacebook()
-                    //     .then((value) => print("usercred:" + value.toString()));
+                    Authentication.signInWithFacebook()
+                        .then((value) => print("usercred:" + value.toString()));
                   },
                   child: SizedBox(
                     height: 50.0,
@@ -76,21 +76,6 @@ class GoogleFaceBookLogin extends StatelessWidget {
                   ),
                 ),
               ),
-              // Container(
-              //   height: 40.0,
-              //   width: size.width * 0.45,
-              //   alignment: Alignment.centerLeft,
-              //   child: Expanded(
-              //     child: SignInButton(
-              //       Buttons.Facebook,
-              //       text: "Facebook",
-              //       onPressed: () {},
-              //       shape: new RoundedRectangleBorder(
-              //         borderRadius: new BorderRadius.circular(8.0),
-              //       ),
-              //     ),
-              //   ),
-              // ),
             ],
           ),
         ],

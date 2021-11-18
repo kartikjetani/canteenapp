@@ -1,7 +1,10 @@
 import 'package:canteenapp/components/menu_item_card.dart';
 import 'package:canteenapp/components/misc/checkout_btn.dart';
 import 'package:canteenapp/controllers/cart_controller.dart';
+import 'package:canteenapp/controllers/user_controller.dart';
 import 'package:canteenapp/models/fooditem_model.dart';
+import 'package:canteenapp/screens/order_screen.dart';
+import 'package:canteenapp/utils/auth.dart';
 import 'package:canteenapp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -24,14 +27,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   static const List<Widget> _widgetOptions = <Widget>[
     Menu(),
-    OrderHistory(),
+    // OrderHistory(),
+    OrderScreen()
   ];
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final cartController = Get.put(CartController());
-
+    final CartController cartController = Get.find();
     List<FoodItem> menu = [];
 
     return Scaffold(
@@ -53,26 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
           selectedItemColor: kPrimaryColor,
           onTap: _onItemTapped,
         ),
-        // appBar: PreferredSize(
-        //   preferredSize: Size.fromHeight(70.0),
-        //   child: AppBar(
-        //     title: Center(
-        //         child: Text("Canteen",
-        //             style: GoogleFonts.poppins(
-        //                 fontSize: 26,
-        //                 fontWeight: FontWeight.w500,
-        //                 fontStyle: FontStyle.normal,
-        //                 color: Color.fromRGBO(62, 68, 98, 1)))),
-        //     backgroundColor: Colors.white,
-        //     elevation: 0,
-        //   ),
-        // ),
-        body:
-            //backgroundColor: Color.fromRGBO(248, 245, 242, 1),
-            CustomScrollView(slivers: [
-          //Color.fromRGBO(248, 245, 242, 1),
-          // PreferredSize(
-          //   preferredSize: Size.fromHeight(70.0),
+        body: CustomScrollView(slivers: [
           SliverAppBar(
             backgroundColor: Color.fromRGBO(248, 245, 242, 1),
             floating: true,
@@ -80,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
             snap: false,
             centerTitle: false,
             title: Text(
-              'Canteen',
+              'Hello, ${Authentication.currentUser.displayName ?? "User"}',
               style: GoogleFonts.poppins(
                   fontSize: 26,
                   fontWeight: FontWeight.w500,
@@ -107,7 +91,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: Colors.red[10],
                 child: Center(
                   child: TextField(
-                    //borderSide: BorderSide(color: Colors.teal),
                     onTap: () {
                       // ignore: unnecessary_statements
                     },
@@ -127,7 +110,12 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(
                 height: size.height,
                 child: _widgetOptions.elementAt(_selectedIndex)),
-            CheckoutBtn(cartController: cartController)
+            CheckoutBtn(cartController: cartController),
+            ElevatedButton(
+                child: Text("Logout"),
+                onPressed: () {
+                  Authentication.signOut();
+                })
           ])),
         ])
 
@@ -151,10 +139,10 @@ class Menu extends StatelessWidget {
           child: Obx(
             () => ListView.builder(
               physics: NeverScrollableScrollPhysics(),
-              itemCount: cartController.cartItems.value.length,
+              itemCount: cartController.menuItems.value.length,
               itemBuilder: (context, index) {
-                return cartController.cartItems[index].isAvail == true
-                    ? MenuItem(data: cartController.cartItems[index].toJson())
+                return cartController.menuItems[index].isAvail == true
+                    ? MenuItem(data: cartController.menuItems[index].toJson())
                     : Container();
               },
             ),

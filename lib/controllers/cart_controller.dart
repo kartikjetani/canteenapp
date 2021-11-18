@@ -1,22 +1,24 @@
 import 'package:canteenapp/models/fooditem_model.dart';
+import 'package:canteenapp/models/order_model.dart';
 import 'package:canteenapp/utils/database.dart';
 import 'package:get/get.dart';
 
 class CartController extends GetxController {
-  var cartItems = <FoodItem>[].obs;
+  var menuItems = <FoodItem>[].obs;
+  var cartItems = <Item>[];
   var cartTotal = 0.obs;
   var totalQty = 0.obs;
 
   DatabaseService dbs = DatabaseService();
   void onInit() {
-    cartItems.bindStream(dbs.menuItemsList);
-    print(" cartitems: $cartItems");
+    menuItems.bindStream(dbs.menuItemsList);
+    print(" menuitems: $menuItems");
     super.onInit();
   }
 
   void add(Map<dynamic, dynamic> foodItem) {
     print("add of cartController is working!!!");
-    for (var item in cartItems) {
+    for (var item in menuItems) {
       if (item.itemName.toString() == foodItem['item_name'].toString()) {
         item.quantity = foodItem['quantity'];
         return;
@@ -28,20 +30,20 @@ class CartController extends GetxController {
         itemName: foodItem["item_name"],
         imgUrl: foodItem["imgUrl"],
         isAvail: foodItem["is_avail"]);
-    cartItems.add(fi);
+    menuItems.add(fi);
   }
 
   void increament(Map<dynamic, dynamic> foodItem) {
-    for (var item in cartItems) {
+    for (var item in menuItems) {
       if (item.itemName.toString() == foodItem['item_name'].toString()) {
         print("Before: ");
-        for (var i in cartItems) {
+        for (var i in menuItems) {
           print("${i.itemName} quantity : ${i.quantity} ");
         }
         item.quantity = foodItem['quantity'];
         print("${foodItem["item_name"]} cnt is updated to ${item.quantity}");
         print("After ");
-        for (var i in cartItems) {
+        for (var i in menuItems) {
           print("${i.itemName} quantity : ${i.quantity} ");
         }
         calculateTotal();
@@ -55,7 +57,7 @@ class CartController extends GetxController {
     int totalPrice = 0;
     int totalQty = 0;
 
-    for (var item in cartItems) {
+    for (var item in menuItems) {
       if (item.quantity != 0) {
         totalPrice += (item.itemPrice! * item.quantity!);
         totalQty += item.quantity!;

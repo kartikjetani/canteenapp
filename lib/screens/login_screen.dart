@@ -45,14 +45,14 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  Future fetchData() async {
-    try {
-      var res = await http.get(Uri.parse("http://192.168.0.103:5000/hello"));
-      print(res.body);
-    } catch (e) {
-      print(e);
-    }
-  }
+  // Future fetchData() async {
+  //   try {
+  //     var res = await http.get(Uri.parse("http://192.168.0.103:5000/hello"));
+  //     print(res.body);
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -110,16 +110,12 @@ class _LoginScreenState extends State<LoginScreen> {
           PrimaryBtn(
             child: Text("LOGIN"),
             onPressed: () {
-              // Authentication().SignIn(email, password).then((value) {
-              //   if (value == "SUCCESS") {
-              //     Navigator.pushReplacement(context,
-              //         MaterialPageRoute(builder: (context) {
-              //       return HomeScreen();
-              //     }));
-              //   }
-              //   showError(value);
-              // });
-              // fetchData();
+              Authentication().SignIn(email, password).then((value) {
+                if (value == "SUCCESS") {
+                  Get.to(HomeScreen());
+                }
+                showError(value);
+              });
             },
           ),
           SizedBox(height: 25),

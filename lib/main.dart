@@ -1,20 +1,12 @@
+import 'package:canteenapp/controllers/cart_controller.dart';
 import 'package:canteenapp/controllers/user_controller.dart';
-import 'package:canteenapp/models/userdata_model.dart';
 import 'package:canteenapp/screens/home_screen.dart';
 import 'package:canteenapp/screens/login_screen.dart';
-import 'package:canteenapp/utils/auth.dart';
-import 'package:canteenapp/utils/database.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-// Import the firebase_core plugin
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:provider/provider.dart';
-
-import 'models/fooditem_model.dart';
 
 void main() async {
   await GetStorage.init();
@@ -63,7 +55,7 @@ class _AppState extends State<App> {
 
     // Show a loader until FlutterFire is initialized
     if (!_initialized) {
-      return Loading();
+      return CircularProgressIndicator();
     }
 
     return MyApp();
@@ -75,18 +67,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     UserController userController = Get.put(UserController());
-    userController.initialize();
+    final cartController = Get.put(CartController());
+
     print(userController.uid.value);
 
     return GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Auth',
+        title: 'Canteen app',
         theme: ThemeData(
             // primaryColor: kPrimaryColor,
             // scaffoldBackgroundColor: Colors.white,
             ),
-        home: HomeScreen());
-    //  (userController.uid.value != "") ? HomeScreen() : LoginScreen());
+        home: Obx(() =>
+            (userController.uid.value != "") ? HomeScreen() : LoginScreen()));
   }
 }
 
@@ -104,30 +97,3 @@ class SomethingWentWrong extends StatelessWidget {
     );
   }
 }
-
-class Loading extends StatelessWidget {
-  const Loading({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Text(
-        "Loading...",
-        textDirection: TextDirection.ltr,
-      ),
-    );
-  }
-}
-//  StreamBuilder(
-//           stream: FirebaseAuth.instance.authStateChanges(),
-//           builder: (context, snapshot) {
-//             if (snapshot.connectionState == ConnectionState.waiting) {
-//               return Center(
-//                 child: CircularProgressIndicator(),
-//               );
-//             } else if (snapshot.hasData) {
-//               return HomeScreen();
-//             } else {
-//               return LoginScreen();
-//             }
-//           }),
