@@ -67,4 +67,12 @@ class CartController extends GetxController {
     cartTotal.value = totalPrice;
     this.totalQty.value = totalQty;
   }
+
+  void reset() {
+    for (var item in menuItems) {
+      item.quantity = 0;
+      totalQty.value = 0;
+      cartTotal.value = 0;
+    }
+  }
 }

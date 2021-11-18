@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final CartController cartController = Get.find();
     List<FoodItem> menu = [];
 
-    return Scaffold(
+    return Obx(() => Scaffold(
         backgroundColor: Color.fromRGBO(248, 245, 242, 1),
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
@@ -107,20 +107,31 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           SliverList(
               delegate: SliverChildListDelegate([
-            SizedBox(
-                height: size.height,
-                child: _widgetOptions.elementAt(_selectedIndex)),
-            CheckoutBtn(cartController: cartController),
-            ElevatedButton(
-                child: Text("Logout"),
-                onPressed: () {
-                  Authentication.signOut();
-                })
-          ])),
-        ])
+            Container(child: _widgetOptions.elementAt(_selectedIndex)),
 
+            // ElevatedButton(
+            //     child: Text("Logout"),
+            //     onPressed: () {
+            //       Authentication.signOut();
+            //     })
+          ])),
+        ]),
+        floatingActionButton:
+            (_selectedIndex == 0 && cartController.totalQty.value != 0)
+                ? FloatingActionButton.extended(
+                    onPressed: () {},
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                    label: Container(
+                      width: size.width * 0.85,
+                      child: CheckoutBtn(
+                        cartController: cartController,
+                      ),
+                    ),
+                  )
+                : null
         // Other Sliver Widgets
-        );
+        ));
   }
 }
 
@@ -132,23 +143,19 @@ class Menu extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     final CartController cartController = Get.find();
 
-    return Column(
-      children: [
-        Expanded(
-          // height: size.height * 0.7,
-          child: Obx(
-            () => ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: cartController.menuItems.value.length,
-              itemBuilder: (context, index) {
-                return cartController.menuItems[index].isAvail == true
-                    ? MenuItem(data: cartController.menuItems[index].toJson())
-                    : Container();
-              },
-            ),
-          ),
-        ),
-      ],
+    List<Widget> menuItemBuilder() {
+      var array = <Widget>[];
+      for (var item in cartController.menuItems.value) {
+        if (item.isAvail == true) {
+          print("item: ${item.toString()}");
+          array.add(MenuItem(data: item.toJson()));
+        }
+      }
+      return array;
+    }
+
+    return Obx(
+      () => Column(children: menuItemBuilder()),
     );
   }
 }

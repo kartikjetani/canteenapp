@@ -44,7 +44,7 @@ class CheckoutBtn extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10)),
               onPressed: () {
                 Get.off(
-                  () => CheckoutScreen(),
+                  CheckoutScreen(),
                 );
               }),
         ));

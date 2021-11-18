@@ -1,5 +1,6 @@
 import 'package:canteenapp/components/misc/stepper.dart';
 import 'package:canteenapp/controllers/user_controller.dart';
+import 'package:canteenapp/utils/database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -11,24 +12,52 @@ class OrderScreen extends StatelessWidget {
     UserController userController = Get.find();
     // userController.temp();
 
-    return Column(
-      children: [
-        Container(
-          height: 120,
-          child: Obx(
-            () => ListView.builder(
-              itemCount: userController.activeOrderList.value.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Text(
-                        "${userController.activeOrderList.value[index].toString()}"));
-              },
-            ),
+    List<Widget> activeOrderBuilder() {
+      var array = <Widget>[];
+      for (var item in userController.activeOrderList.value) {
+        array.add(OrderCard(data: item.toJson()));
+      }
+      return array;
+    }
+
+    return Obx(() => Column(
+          children: activeOrderBuilder(),
+        ));
+  }
+}
+
+class OrderCard extends StatelessWidget {
+  Map<String, dynamic>? data;
+  OrderCard({Key? key, this.data}) : super(key: key);
+
+  List<Widget> itemListBuilder() {
+    var widgetArray = <Widget>[];
+    for (var item in data!["items"]) {
+      widgetArray.add(Text("${item["item_name"]} x ${item["quantity"]}"));
+    }
+    return widgetArray;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Column(
+        children: [
+          Text(
+              "OrderId: ${data!["order_id"]}    total: ${data!["total_amount"]}"),
+          SizedBox(
+            height: 20,
           ),
-        ),
-        Container(height: 500, child: StepperDemo())
-      ],
+          Column(
+            children: itemListBuilder(),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text("status: ${data!["status"]}"),
+          StepperDemo(status: data!["status"])
+        ],
+      ),
     );
   }
 }

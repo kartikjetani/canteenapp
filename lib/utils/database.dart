@@ -4,22 +4,20 @@ import 'package:canteenapp/models/fooditem_model.dart';
 import 'package:canteenapp/models/order_model.dart';
 import 'package:canteenapp/utils/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 
 class DatabaseService {
   static CartController cartController = Get.find();
   static UserController userController = Get.find();
-  var _path = '/orders/${userController.uid.value}/active_orders';
 
-  DatabaseService() {
-    if (userController.uid.value == "") {
-      _path = '/orders/temp/active_orders';
-    }
-  }
+  final CollectionReference activeOrders =
+      FirebaseFirestore.instance.collection("active_orders");
   final CollectionReference foodItems =
       FirebaseFirestore.instance.collection('food_items');
+  final DocumentReference counterRef =
+      FirebaseFirestore.instance.doc("statistics/counter");
 
-// ${userController.uid.value.toString()}
   Stream<List<FoodItem>> get menuItemsList {
     return foodItems.snapshots().map(_menuitemListFromSnapshot);
   }
@@ -37,22 +35,19 @@ class DatabaseService {
   }
 
   Stream<List<Order>> get orderList {
-    final CollectionReference activeOrders =
-        FirebaseFirestore.instance.collection(_path);
-    print(_path);
-
     return activeOrders.snapshots().map(_orderListFromSnapshot);
   }
 
   List<Order> _orderListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs
-        .map((doc) => Order.fromJson(doc.data() as Map<String, dynamic>))
-        .toList();
+        .where((element) => element['uid'] == userController.uid.value)
+        .map((doc) {
+      // print(doc.data());
+      return Order.fromJson(doc.data() as Map<String, dynamic>);
+    }).toList();
   }
 
   void createNewOrder() {
-    final CollectionReference activeOrders =
-        FirebaseFirestore.instance.collection("active_orders");
     var cartItems = <Item>[];
     print(cartController.menuItems.value.toString());
     for (var e in cartController.menuItems.value) {
@@ -60,14 +55,30 @@ class DatabaseService {
         cartItems.add(Item(itemName: e.itemName, quantity: e.quantity));
       }
     }
+    DateTime now = new DateTime.now();
+    DateTime date = new DateTime(now.year, now.month, now.day);
 
     var orderDoc =
         Order(items: cartItems, status: "REQ_SENT", timestamp: Timestamp.now())
             .toJson();
     orderDoc["uid"] = userController.uid.value;
-    orderDoc["order_id"] = "3";
+    orderDoc["user_name"] = Authentication.currentUser.displayName;
+    orderDoc["total_amount"] = cartController.cartTotal.value;
+
+    counterRef.get().then((DocumentSnapshot doc) {
+      orderDoc["order_id"] =
+          "${date.toString().substring(0, 10)}_${doc.get("order_counter") + 1}";
+      print("order_counter: ${orderDoc["order_id"]}");
+
+      counterRef.update({"order_counter": doc.get("order_counter") + 1});
+      activeOrders.doc(orderDoc["order_id"]).set(orderDoc);
+    });
     print("${cartItems.toList()}");
-    activeOrders.doc("3").set(orderDoc);
     print("document added");
+  }
+
+  void cancelOrder(String orderId) {
+    activeOrders.doc(orderId).update({"status": "CANCELLED"});
+    print("order cancelled");
   }
 }
