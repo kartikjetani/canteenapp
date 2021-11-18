@@ -24,6 +24,7 @@ class MyInputBox extends StatelessWidget {
                     color: Colors.black54, fontWeight: FontWeight.w500))),
         Container(
           width: size.width * 0.8,
+          height: 40,
           child: TextField(
             onChanged: onChanged,
             decoration: InputDecoration(

@@ -1,6 +1,11 @@
 import 'package:canteenapp/components/misc/separator_with_text.dart';
+import 'package:canteenapp/controllers/user_controller.dart';
+import 'package:canteenapp/models/userdata_model.dart';
+import 'package:canteenapp/screens/home_screen.dart';
 import 'package:canteenapp/utils/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class GoogleFaceBookLogin extends StatelessWidget {
   @override
@@ -20,7 +25,10 @@ class GoogleFaceBookLogin extends StatelessWidget {
                 width: size.width * 0.40,
                 child: RaisedButton(
                   color: Colors.white,
-                  onPressed: () {},
+                  onPressed: () {
+                    Authentication.signInWithFacebook()
+                        .then((value) => print("usercred:" + value.toString()));
+                  },
                   child: SizedBox(
                     height: 50.0,
                     child: Row(
@@ -46,9 +54,7 @@ class GoogleFaceBookLogin extends StatelessWidget {
                 child: RaisedButton(
                   color: Colors.white,
                   onPressed: () {
-                    Authentication()
-                        .signInWithGoogle()
-                        .then((value) => print(value));
+                    Authentication.signInWithGoogle();
                   },
                   child: SizedBox(
                     height: 50.0,
@@ -70,36 +76,6 @@ class GoogleFaceBookLogin extends StatelessWidget {
                   ),
                 ),
               ),
-              // Container(
-              //   height: 40.0,
-              //   width: size.width * 0.45,
-              //   alignment: Alignment.centerLeft,
-              //   child: Expanded(
-              //     child: SignInButton(
-              //       Buttons.Facebook,
-              //       text: "Facebook",
-              //       onPressed: () {},
-              //       shape: new RoundedRectangleBorder(
-              //         borderRadius: new BorderRadius.circular(8.0),
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              //   Container(
-              //     height: 40.0,
-              //     width: size.width * 0.45,
-              //     alignment: Alignment.centerLeft,
-              //     child: Expanded(
-              //       child: SignInButton(
-              //         Buttons.Google,
-              //         text: "Google",
-              //         onPressed: () {},
-              //         shape: new RoundedRectangleBorder(
-              //           borderRadius: new BorderRadius.circular(8.0),
-              //         ),
-              //       ),
-              //     ),
-              //   ),
             ],
           ),
         ],

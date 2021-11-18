@@ -1,18 +1,20 @@
+import 'dart:async';
+import 'package:canteenapp/controllers/user_controller.dart';
+import 'package:canteenapp/models/userdata_model.dart';
+import 'package:canteenapp/screens/home_screen.dart';
+import 'package:canteenapp/screens/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-// import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:get_storage/get_storage.dart';
 
 class Authentication {
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  static FirebaseAuth _auth = FirebaseAuth.instance;
+  static UserController userController = Get.find();
 
-  Future isSignIn() async {
-    _auth.authStateChanges().listen((User? user) {
-      if (user == null) {
-        print('User is currently signed out!');
-      } else {
-        print('User is signed in!');
-      }
-    });
+  static get currentUser {
+    return _auth.currentUser;
   }
 
   // ignore: non_constant_identifier_names
@@ -36,10 +38,13 @@ class Authentication {
   }
 
   // ignore: non_constant_identifier_names
-  Future SignUp(String email, String password) async {
+  static Future SignUp(
+      String email, String password, String? displayName) async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance
+      UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
+      userCredential.user!.updateDisplayName(displayName);
+      print(userCredential.toString());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
@@ -51,11 +56,10 @@ class Authentication {
     }
   }
 
-  Future<UserCredential> signInWithGoogle() async {
-    // Trigger the authentication flow
+  static void signInWithGoogle() async {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-    // Obtain the auth details from the request
+    // Obtain the _auth details from the request
     final GoogleSignInAuthentication? googleAuth =
         await googleUser?.authentication;
 
@@ -66,18 +70,29 @@ class Authentication {
     );
 
     // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+
+    FirebaseAuth.instance.signInWithCredential(credential).then((value) {
+      print("uid: ${value.user!.uid}");
+      userController.uid.value = value.user!.uid;
+    });
   }
 
-  // Future<UserCredential> signInWithFacebook() async {
-  //   // Trigger the sign-in flow
-  //   final LoginResult loginResult = await FacebookAuth.instance.login();
+  static Future<String?> signInWithFacebook() async {
+    final LoginResult result = await FacebookAuth.instance.login();
+    print("message : " + result.status.toString());
+    if (result.status == LoginStatus.success) {
+      // Create a credential from the access token
+      final OAuthCredential credential =
+          FacebookAuthProvider.credential(result.accessToken!.token);
+      // Once signed in, return the UserCredential
+      final userData = await FacebookAuth.instance.getUserData();
+      return userData.toString();
+    }
+    return null;
+  }
 
-  //   // Create a credential from the access token
-  //   final OAuthCredential facebookAuthCredential =
-  //       FacebookAuthProvider.credential(loginResult.accessToken!.token);
-
-  //   // Once signed in, return the UserCredential
-  //   return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
-  // }
+  static Future<void> signOut() async {
+    await FirebaseAuth.instance.signOut();
+    print("signed out");
+  }
 }
