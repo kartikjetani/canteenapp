@@ -81,4 +81,8 @@ class DatabaseService {
     activeOrders.doc(orderId).update({"status": "CANCELLED"});
     print("order cancelled");
   }
+
+  void pay(String orderid) {
+    activeOrders.doc(orderid).update({"status": "PAID"});
+  }
 }

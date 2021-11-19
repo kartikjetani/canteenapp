@@ -35,7 +35,29 @@ class OrderCard extends StatelessWidget {
     for (var item in data!["items"]) {
       widgetArray.add(Text("${item["item_name"]} x ${item["quantity"]}"));
     }
+
     return widgetArray;
+  }
+
+  void statusToIndex() {
+    var _index = 0;
+    switch (data!["status"]) {
+      case "REQ_SENT":
+        _index = 0;
+        break;
+      case "REQ_ACCEPTED":
+        _index = 1;
+        break;
+      case "PAID":
+        _index = 2;
+        break;
+      case "READY":
+        _index = 3;
+        break;
+      case "DELIVERED":
+        _index = 4;
+        break;
+    }
   }
 
   @override
@@ -55,7 +77,10 @@ class OrderCard extends StatelessWidget {
             height: 20,
           ),
           Text("status: ${data!["status"]}"),
-          StepperDemo(status: data!["status"])
+          StepperDemo(
+            status: data!["status"],
+            orderid: data!["order_id"],
+          )
         ],
       ),
     );
