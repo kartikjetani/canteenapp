@@ -39,6 +39,7 @@ dependencies:
   cloud_firestore: ^2.5.4
   provider: ^6.0.1 
   timeline_tile: ^2.0.0 
+  cashfree_pg: ^2.0.4+24 
 
 dev_dependencies:
   flutter_test:

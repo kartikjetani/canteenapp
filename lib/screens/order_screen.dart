@@ -30,6 +30,8 @@ class OrderCard extends StatelessWidget {
   Map<String, dynamic>? data;
   OrderCard({Key? key, this.data}) : super(key: key);
 
+  get style => null;
+
   List<Widget> itemListBuilder() {
     var widgetArray = <Widget>[];
     for (var item in data!["items"]) {
@@ -65,21 +67,53 @@ class OrderCard extends StatelessWidget {
     return Card(
       child: Column(
         children: [
-          Text(
-              "OrderId: ${data!["order_id"]}    total: ${data!["total_amount"]}"),
-          SizedBox(
-            height: 20,
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("${data!["order_id"]}",
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green[700])),
+                  Text("11:30",
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green[700])),
+                ]),
           ),
-          Column(
-            children: itemListBuilder(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 50),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: itemListBuilder(),
+                  ),
+                  Column(
+                    children: [Text("25"), Text("56"), Text("88")],
+                  )
+                ]),
           ),
-          SizedBox(
-            height: 20,
+          Padding(
+            padding: const EdgeInsets.only(right: 50, top: 10),
+            child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+              Column(
+                children: [
+                  Text("Total : ${data!["total_amount"]}",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ))
+                ],
+              ),
+            ]),
           ),
-          Text("status: ${data!["status"]}"),
           StepperDemo(
-            status: data!["status"],
-            orderid: data!["order_id"],
+            data: data,
           )
         ],
       ),
