@@ -4,6 +4,7 @@ class Order {
   List<Item>? items;
   Timestamp? timestamp;
   String? uid;
+  String? fcmtoken;
   String? status;
   String? orderid;
   String? userName;
@@ -14,6 +15,7 @@ class Order {
       this.timestamp,
       this.status,
       this.uid,
+      this.fcmtoken,
       this.orderid,
       this.userName,
       this.totalAmount});
@@ -28,6 +30,7 @@ class Order {
     timestamp = json['timestamp'];
     status = json['status'];
     uid = json['uid'];
+    fcmtoken = json['fcmtoken'];
     orderid = "${json["order_id"]}";
     userName = json["user_name"];
     totalAmount = json["total_amount"];
@@ -41,6 +44,7 @@ class Order {
     data['timestamp'] = this.timestamp;
     data['status'] = this.status;
     data['uid'] = this.uid;
+    data['fcmtoken'] = this.fcmtoken;
     data['order_id'] = this.orderid;
     data['user_name'] = this.userName;
     data['total_amount'] = this.totalAmount;
@@ -58,18 +62,21 @@ class Order {
 class Item {
   String? itemName;
   int? quantity;
+  int? item_price;
 
-  Item({this.itemName, this.quantity});
+  Item({this.itemName, this.item_price, this.quantity});
 
   Item.fromJson(Map<String, dynamic> json) {
     itemName = json['item_name'];
     quantity = json['quantity'];
+    item_price = json['item_price'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['item_name'] = this.itemName;
     data['quantity'] = this.quantity;
+    data['item_price'] = this.item_price;
     return data;
   }
 

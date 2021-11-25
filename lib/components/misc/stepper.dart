@@ -40,7 +40,7 @@ class StepperDemo extends StatelessWidget {
 
     if ((index != -1)) {
       return Container(
-        height: 455,
+        height: 470,
         child: Center(
           child: Column(
             // shrinkWrap: true,
@@ -96,7 +96,7 @@ class StepperDemo extends StatelessWidget {
                           },
                           child: Text("Pay"))
                       : null,
-                  width: (index == 1) ? 55 : 20,
+                  width: (index == 1) ? 58 : 20,
                   color: (index >= 2) ? kPrimaryColor : Color(0xFFDADADA),
                   padding: EdgeInsets.all(6),
                 ),

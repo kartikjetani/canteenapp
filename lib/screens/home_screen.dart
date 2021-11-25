@@ -8,8 +8,12 @@ import 'package:canteenapp/utils/auth.dart';
 import 'package:canteenapp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -18,6 +22,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
+  int _counter = 0;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -79,6 +84,23 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: Color.fromRGBO(232, 76, 79, 1),
                 onPressed: () {
                   // ignore: unnecessary_statements
+
+                  setState(() {
+                    _counter++;
+                  });
+                  flutterLocalNotificationsPlugin.show(
+                      0,
+                      "Testing $_counter",
+                      "How you doin ?",
+                      NotificationDetails(
+                          android: AndroidNotificationDetails(
+                              'high_importance_channel', // id
+                              'High Importance Notifications',
+                              importance: Importance.high,
+                              color: Colors.blue,
+                              playSound: true,
+                              icon: '@mipmap/ic_launcher')));
+
                   Color.fromRGBO(232, 76, 79, 1);
                 },
               ),

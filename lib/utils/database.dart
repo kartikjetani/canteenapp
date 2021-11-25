@@ -55,7 +55,10 @@ class DatabaseService {
     print(cartController.menuItems.value.toString());
     for (var e in cartController.menuItems.value) {
       if (e.quantity != 0) {
-        cartItems.add(Item(itemName: e.itemName, quantity: e.quantity));
+        cartItems.add(Item(
+            itemName: e.itemName,
+            quantity: e.quantity,
+            item_price: e.itemPrice));
       }
     }
     DateTime now = new DateTime.now();
@@ -65,9 +68,11 @@ class DatabaseService {
         Order(items: cartItems, status: "REQ_SENT", timestamp: Timestamp.now())
             .toJson();
     orderDoc["uid"] = userController.uid.value;
+    orderDoc["fcmtoken"] = userController.fcmtoken.value;
     orderDoc["user_name"] = Authentication.currentUser.displayName;
     orderDoc["total_amount"] = cartController.cartTotal.value;
 
+    print("orderdoc fcmtoken: ${orderDoc["fcmtoken"]}");
     counterRef.get().then((DocumentSnapshot doc) {
       orderDoc["order_id"] =
           "${date.toString().substring(0, 10)}_${doc.get("order_counter") + 1}";

@@ -14,6 +14,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class UserController extends GetxController {
   var uid = "".obs;
+  var fcmtoken = "".obs;
   var activeOrderList = <Order>[].obs;
 
   void onInit() {

@@ -17,7 +17,7 @@ class OrderScreen extends StatelessWidget {
       for (var item in userController.activeOrderList.value) {
         array.add(OrderCard(data: item.toJson()));
       }
-      return array;
+      return array.reversed.toList();
     }
 
     return Obx(() => Column(
@@ -31,15 +31,6 @@ class OrderCard extends StatelessWidget {
   OrderCard({Key? key, this.data}) : super(key: key);
 
   get style => null;
-
-  List<Widget> itemListBuilder() {
-    var widgetArray = <Widget>[];
-    for (var item in data!["items"]) {
-      widgetArray.add(Text("${item["item_name"]} x ${item["quantity"]}"));
-    }
-
-    return widgetArray;
-  }
 
   void statusToIndex() {
     var _index = 0;
@@ -64,6 +55,24 @@ class OrderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    List<Widget> itemListBuilder() {
+      var widgetArray = <Widget>[];
+      for (var item in data!["items"]) {
+        widgetArray.add(Container(
+          width: size.width * 0.7,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("${item["item_name"]} x ${item["quantity"]}"),
+              Text("${item["item_price"] * item["quantity"]}")
+            ],
+          ),
+        ));
+      }
+      return widgetArray;
+    }
+
     return Card(
       child: Column(
         children: [
@@ -77,7 +86,8 @@ class OrderCard extends StatelessWidget {
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: Colors.green[700])),
-                  Text("11:30",
+                  Text(
+                      "${DateTime.fromMillisecondsSinceEpoch(data!["timestamp"].seconds * 1000).toLocal().toString().substring(11, 16)} ",
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -93,9 +103,9 @@ class OrderCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: itemListBuilder(),
                   ),
-                  Column(
-                    children: [Text("25"), Text("56"), Text("88")],
-                  )
+                  // Column(
+                  //   children: [Text("25"), Text("56"), Text("88")],
+                  // )
                 ]),
           ),
           Padding(
