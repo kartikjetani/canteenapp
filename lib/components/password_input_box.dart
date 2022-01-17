@@ -32,6 +32,7 @@ class _PasswordInputState extends State<PasswordInput> {
                     color: Colors.black54, fontWeight: FontWeight.w500))),
         Container(
           width: size.width * 0.8,
+          height: 50,
           child: TextField(
             obscureText: _isVisible,
             onChanged: widget.onChanged,

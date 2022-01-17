@@ -1,7 +1,8 @@
+// ignore: avoid_web_libraries_in_flutter
+
 import 'package:canteenapp/components/menu_item_card.dart';
 import 'package:canteenapp/components/misc/checkout_btn.dart';
 import 'package:canteenapp/controllers/cart_controller.dart';
-import 'package:canteenapp/controllers/user_controller.dart';
 import 'package:canteenapp/models/fooditem_model.dart';
 import 'package:canteenapp/screens/order_screen.dart';
 import 'package:canteenapp/utils/auth.dart';
@@ -14,6 +15,14 @@ import 'package:google_fonts/google_fonts.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
+
+class Behavior extends ScrollBehavior {
+  @override
+  Widget buildViewportChrome(
+      BuildContext context, Widget child, AxisDirection axisDirection) {
+    return child;
+  }
+}
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -43,6 +52,14 @@ class _HomeScreenState extends State<HomeScreen> {
     List<FoodItem> menu = [];
 
     return Obx(() => Scaffold(
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              UserAccountsDrawerHeader(
+                  accountName: Text("AAAAA"), accountEmail: Text("EEEE"))
+            ],
+          ),
+        ),
         backgroundColor: Color.fromRGBO(248, 245, 242, 1),
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
@@ -61,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
           selectedItemColor: kPrimaryColor,
           onTap: _onItemTapped,
         ),
-        body: CustomScrollView(slivers: [
+        body: CustomScrollView(scrollBehavior: Behavior(), slivers: [
           SliverAppBar(
             backgroundColor: Color.fromRGBO(248, 245, 242, 1),
             floating: true,

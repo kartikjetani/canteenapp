@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class PrimaryBtn extends StatelessWidget {
   final Widget child;
@@ -20,10 +21,17 @@ class PrimaryBtn extends StatelessWidget {
               borderRadius: BorderRadius.circular(8.0),
             ))),
         child: Container(
-          height: size.height * 0.06,
+          height: size.height * 0.08,
           width: size.width * 0.6,
           alignment: Alignment.center,
-          child: child,
+          child: Text(
+            "Confirm Order",
+            style: GoogleFonts.poppins(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                fontStyle: FontStyle.normal,
+                color: Color.fromRGBO(255, 255, 255, 1)),
+          ),
         ));
   }
 }

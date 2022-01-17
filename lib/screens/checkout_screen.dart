@@ -7,6 +7,7 @@ import 'package:canteenapp/screens/order_screen.dart';
 import 'package:canteenapp/utils/database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CheckoutScreen extends StatelessWidget {
   final CartController cartController = Get.find();
@@ -26,25 +27,38 @@ class CheckoutScreen extends StatelessWidget {
     print(
         " cartcontroller from checkout page ${cartController.menuItems.value}");
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Checkout"),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Get.off(HomeScreen());
-          },
+        appBar: AppBar(
+          backwardsCompatibility: false,
+          backgroundColor: Colors.white,
+          title: Text(
+            "Checkout",
+            style: GoogleFonts.poppins(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                fontStyle: FontStyle.normal,
+                color: Color.fromRGBO(62, 68, 98, 1)),
+          ),
+          leading: IconButton(
+            color: Color.fromRGBO(62, 68, 98, 1),
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Get.off(HomeScreen());
+            },
+          ),
         ),
-      ),
-      bottomNavigationBar: PrimaryBtn(
-          onPressed: () {
-            DatabaseService().createNewOrder();
-            cartController.reset();
-            Get.off(HomeScreen());
-          },
-          child: Text("Confirm Order")),
-      body: Obx(() => ListView(
-            children: activeOrderBuilder(),
-          )),
-    );
+        bottomNavigationBar: PrimaryBtn(
+            onPressed: () {
+              DatabaseService().createNewOrder();
+              cartController.reset();
+              Get.off(HomeScreen());
+            },
+            child: Text(
+              "Confirm Order",
+            )),
+        body: SingleChildScrollView(
+          child: Obx(() => ListView(
+                children: activeOrderBuilder(),
+              )),
+        ));
   }
 }
