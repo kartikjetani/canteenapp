@@ -52,14 +52,80 @@ class _HomeScreenState extends State<HomeScreen> {
     List<FoodItem> menu = [];
 
     return Obx(() => Scaffold(
-        drawer: Drawer(
+        endDrawer: Drawer(
+            child: Material(
+          color: Color.fromRGBO(248, 245, 242, 1),
           child: ListView(
+            padding: EdgeInsets.symmetric(horizontal: 15),
             children: [
-              UserAccountsDrawerHeader(
-                  accountName: Text("AAAAA"), accountEmail: Text("EEEE"))
+              // UserAccountsDrawerHeader(
+
+              //     accountName: Text("M D"),
+              //     accountEmail: Text("email@gmail.com")),
+              SizedBox(height: 50),
+              ListTile(
+                hoverColor: Colors.red[600],
+                leading: Icon(Icons.security),
+                title: Text(
+                  "Security",
+                  style: GoogleFonts.poppins(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      fontStyle: FontStyle.normal,
+                      color: Color.fromRGBO(62, 68, 98, 1)),
+                ),
+                onTap: () => {},
+              ),
+              SizedBox(height: 20),
+              ListTile(
+                hoverColor: Colors.red[600],
+                leading: Icon(Icons.search),
+                title: Text(
+                  "Search",
+                  style: GoogleFonts.poppins(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      fontStyle: FontStyle.normal,
+                      color: Color.fromRGBO(62, 68, 98, 1)),
+                ),
+                onTap: () => {},
+              ),
+              SizedBox(height: 20),
+              ListTile(
+                hoverColor: Colors.red[600],
+                leading: Icon(Icons.update),
+                title: Text(
+                  "Updates",
+                  style: GoogleFonts.poppins(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      fontStyle: FontStyle.normal,
+                      color: Color.fromRGBO(62, 68, 98, 1)),
+                ),
+                onTap: () => {},
+              ),
+              SizedBox(height: 20),
+              ListTile(
+                hoverColor: Colors.red[600],
+                leading: Icon(Icons.favorite),
+                title: Text(
+                  "Favourite",
+                  style: GoogleFonts.poppins(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      fontStyle: FontStyle.normal,
+                      color: Color.fromRGBO(62, 68, 98, 1)),
+                ),
+                onTap: () => {},
+              ),
+              SizedBox(height: 40),
+              Divider(
+                thickness: 1,
+                color: Colors.red[600],
+              )
             ],
           ),
-        ),
+        )),
         backgroundColor: Color.fromRGBO(248, 245, 242, 1),
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
@@ -78,83 +144,97 @@ class _HomeScreenState extends State<HomeScreen> {
           selectedItemColor: kPrimaryColor,
           onTap: _onItemTapped,
         ),
-        body: CustomScrollView(scrollBehavior: Behavior(), slivers: [
-          SliverAppBar(
-            backgroundColor: Color.fromRGBO(248, 245, 242, 1),
-            floating: true,
-            pinned: true,
-            snap: false,
-            centerTitle: false,
-            title: Text(
-              'Hello, ${Authentication.currentUser.displayName ?? "User"}',
-              style: GoogleFonts.poppins(
-                  fontSize: 26,
-                  fontWeight: FontWeight.w500,
-                  fontStyle: FontStyle.normal,
-                  color: Color.fromRGBO(62, 68, 98, 1)),
-              //textAlign: TextAlign.center,
-            ),
-            actions: [
-              // backgroundColor: Color.fromRGBO(62, 68, 98, 1),
-              IconButton(
-                icon: Icon(Icons.notifications),
-                color: Color.fromRGBO(232, 76, 79, 1),
-                onPressed: () {
-                  // ignore: unnecessary_statements
-
-                  setState(() {
-                    _counter++;
-                  });
-                  flutterLocalNotificationsPlugin.show(
-                      0,
-                      "Testing $_counter",
-                      "How you doin ?",
-                      NotificationDetails(
-                          android: AndroidNotificationDetails(
-                              'high_importance_channel', // id
-                              'High Importance Notifications',
-                              importance: Importance.high,
-                              color: Colors.blue,
-                              playSound: true,
-                              icon: '@mipmap/ic_launcher')));
-
-                  Color.fromRGBO(232, 76, 79, 1);
-                },
-              ),
-            ],
-            bottom: AppBar(
+        body: Builder(
+          builder: (context) =>
+              CustomScrollView(scrollBehavior: Behavior(), slivers: [
+            SliverAppBar(
               backgroundColor: Color.fromRGBO(248, 245, 242, 1),
-              title: Container(
-                width: double.infinity,
-                height: 40,
-                color: Colors.red[10],
-                child: Center(
-                  child: TextField(
-                    onTap: () {
-                      // ignore: unnecessary_statements
-                    },
-                    decoration: InputDecoration(
-                      hintText: 'Search for something',
-                      prefixIcon: Icon(Icons.search,
-                          color: Color.fromRGBO(232, 76, 79, 1)),
+              floating: true,
+              pinned: true,
+              snap: false,
+              centerTitle: false,
+              title: Text(
+                'Hello, ${Authentication.currentUser.displayName ?? "User"}',
+                style: GoogleFonts.poppins(
+                    fontSize: 26,
+                    fontWeight: FontWeight.w500,
+                    fontStyle: FontStyle.normal,
+                    color: Color.fromRGBO(62, 68, 98, 1)),
+                //textAlign: TextAlign.center,
+              ),
+              actions: [
+                IconButton(
+                  icon: Icon(Icons.menu),
+                  color: Color.fromRGBO(232, 76, 79, 1),
+                  onPressed: () {
+                    Scaffold.of(context).openEndDrawer();
+
+                    // ignore: unnecessary_statements
+
+                    Color.fromRGBO(232, 76, 79, 1);
+                  },
+                ),
+                // backgroundColor: Color.fromRGBO(62, 68, 98, 1),
+                IconButton(
+                  icon: Icon(Icons.notifications),
+                  color: Color.fromRGBO(232, 76, 79, 1),
+                  onPressed: () {
+                    // ignore: unnecessary_statements
+
+                    setState(() {
+                      _counter++;
+                    });
+                    flutterLocalNotificationsPlugin.show(
+                        0,
+                        "Testing $_counter",
+                        "How you doin ?",
+                        NotificationDetails(
+                            android: AndroidNotificationDetails(
+                                'high_importance_channel', // id
+                                'High Importance Notifications',
+                                importance: Importance.high,
+                                color: Colors.blue,
+                                playSound: true,
+                                icon: '@mipmap/ic_launcher')));
+
+                    Color.fromRGBO(232, 76, 79, 1);
+                  },
+                ),
+              ],
+              bottom: AppBar(
+                backgroundColor: Color.fromRGBO(248, 245, 242, 1),
+                title: Container(
+                  width: double.infinity,
+                  height: 40,
+                  color: Colors.red[10],
+                  child: Center(
+                    child: TextField(
+                      onTap: () {
+                        // ignore: unnecessary_statements
+                      },
+                      decoration: InputDecoration(
+                        hintText: 'Search for something',
+                        prefixIcon: Icon(Icons.search,
+                            color: Color.fromRGBO(232, 76, 79, 1)),
+                      ),
                     ),
                   ),
                 ),
+                elevation: 0,
               ),
-              elevation: 0,
             ),
-          ),
-          SliverList(
-              delegate: SliverChildListDelegate([
-            Container(child: _widgetOptions.elementAt(_selectedIndex)),
+            SliverList(
+                delegate: SliverChildListDelegate([
+              Container(child: _widgetOptions.elementAt(_selectedIndex)),
 
-            // ElevatedButton(
-            //     child: Text("Logout"),
-            //     onPressed: () {
-            //       Authentication.signOut();
-            //     })
-          ])),
-        ]),
+              // ElevatedButton(
+              //     child: Text("Logout"),
+              //     onPressed: () {
+              //       Authentication.signOut();
+              //     })
+            ])),
+          ]),
+        ),
         floatingActionButton:
             (_selectedIndex == 0 && cartController.totalQty.value != 0)
                 ? FloatingActionButton.extended(
