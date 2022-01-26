@@ -21,17 +21,10 @@ class PrimaryBtn extends StatelessWidget {
               borderRadius: BorderRadius.circular(8.0),
             ))),
         child: Container(
-          height: size.height * 0.08,
-          width: size.width * 0.6,
+          height: size.height * 0.04,
+          width: size.width * 0.4,
           alignment: Alignment.center,
-          child: Text(
-            "Confirm Order",
-            style: GoogleFonts.poppins(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-                fontStyle: FontStyle.normal,
-                color: Color.fromRGBO(255, 255, 255, 1)),
-          ),
+          child: child
         ));
   }
 }

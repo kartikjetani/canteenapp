@@ -55,10 +55,9 @@ class CheckoutScreen extends StatelessWidget {
             child: Text(
               "Confirm Order",
             )),
-        body: SingleChildScrollView(
-          child: Obx(() => ListView(
+        body:  Obx(() => ListView(
                 children: activeOrderBuilder(),
-              )),
+              ),
         ));
   }
 }
